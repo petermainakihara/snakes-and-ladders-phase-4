@@ -1,82 +1,71 @@
-import React, { useEffect, useState } from "react";
-import Board from "./components/Board";
-import Dice from "./components/Dice";
-import { snakes, ladders } from "./logic/boardSetup";
-import {
-  initGame,
-  getCurrentPlayer,
-  nextTurn,
-  playerPositions,
-  updatePlayerPosition,
-} from "./logic/gameState";
-import { checkSnakeOrLadder } from "./logic/boardSetup";
-import { checkWin } from "./logic/winCheck";
+import React, { useState } from "react";
+import Board from "./components/board/board"; // Game board layout
+import Dice from "./assets/dice"; // Dice component
+import { snakes, ladders, checkSnakeOrLadder } from "./components/data/snakesAndLadders"; // Game elements
+import { checkWin } from "./components/GameLogic/winCheck"; // Win condition checker
 
+// Constants
 const NUM_PLAYERS = 2;
 const BOARD_SIZE = 100;
 
 const App = () => {
-  const [positions, setPositions] = useState(initGame(NUM_PLAYERS)); // [0, 0]
+  // State for each player's current position on the board
+  const [positions, setPositions] = useState(Array(NUM_PLAYERS).fill(0));
+
+  // Track which player's turn it is (0-based index)
   const [currentPlayer, setCurrentPlayer] = useState(0);
+
+  // Store the last dice value rolled
   const [diceValue, setDiceValue] = useState(null);
+
+  // Store the winner's index (if game ends)
   const [winner, setWinner] = useState(null);
 
-  // Roll handler
+  // Handle the dice roll logic
   const handleRoll = (value) => {
-    if (winner !== null) return;
+    if (winner !== null) return; // Do nothing if the game is already won
 
-    setDiceValue(value);
+    setDiceValue(value); // Set the rolled dice value
 
     let newPos = positions[currentPlayer] + value;
 
+    // Prevent moving beyond the board size
     if (newPos > BOARD_SIZE) {
-      newPos = positions[currentPlayer]; // Don't move if over limit
+      newPos = positions[currentPlayer];
     }
 
-    // Check if landed on snake or ladder
-    const finalPos = checkSnakeOrLadder(newPos, snakes, ladders);
+    // Check if landed on a snake or ladder
+    const finalPos = checkSnakeOrLadder(newPos);
 
-    // Update position
-    const newPositions = [...positions];
-    newPositions[currentPlayer] = finalPos;
-    setPositions(newPositions);
+    // Update the player's new position
+    const updatedPositions = [...positions];
+    updatedPositions[currentPlayer] = finalPos;
+    setPositions(updatedPositions);
 
-    // Check win
+    // Check for win condition
     if (checkWin(finalPos)) {
       setWinner(currentPlayer);
     } else {
-      // Next turn
-      setTimeout(() => {
-        setCurrentPlayer(nextTurn(currentPlayer, NUM_PLAYERS));
-        setDiceValue(null);
-      }, 1000);
+      // Proceed to next player's turn
+      setCurrentPlayer((currentPlayer + 1) % NUM_PLAYERS);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-red-100 p-6 text-center">
-      <h1 className="text-3xl font-bold mb-4">🎲 Snakes and Ladders</h1>
+    <div className="app">
+      <h1>🎲 Snakes and Ladders 🐍</h1>
 
-      <Board
-        positions={positions}
-        snakes={snakes}
-        ladders={ladders}
-        boardSize={BOARD_SIZE}
-      />
+      {/* Render the game board with current player positions and elements */}
+      <Board positions={positions} snakes={snakes} ladders={ladders} />
 
-      {winner !== null ? (
-        <h2 className="text-green-600 text-2xl font-bold mt-4">
-          🏆 Player {winner + 1} Wins!
-        </h2>
-      ) : (
-        <>
-          <h2 className="text-xl mt-4">
-            Player {currentPlayer + 1}'s turn
-          </h2>
-          <Dice onRoll={handleRoll} disabled={diceValue !== null} />
-          {diceValue && <p className="mt-2">Rolled: {diceValue}</p>}
-        </>
-      )}
+      {/* Dice component to roll and trigger game moves */}
+      <Dice onRoll={handleRoll} />
+
+      {/* Show dice roll result */}
+      {diceValue && <p>Player {currentPlayer + 1} rolled a {diceValue}</p>}
+
+      {/* Display winner if there's one */}
+      {winner !== null && <h2>🏆 Player {winner + 1} Wins!</h2>}
     </div>
   );
 };
