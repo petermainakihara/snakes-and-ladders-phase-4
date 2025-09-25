@@ -1,5 +1,5 @@
 //snake mappings key = start(head) value = end(tail)
-const snakes = {
+export const snakes = {
   16: 6,
   48: 26,
   49: 11,
@@ -10,7 +10,7 @@ const snakes = {
 };
 
 //ladders mappings key = start(bottom) value = end(top)
-const ladders = {
+export const ladders = {
   1: 38,
   4: 14,
   9: 31,
@@ -19,10 +19,6 @@ const ladders = {
   71: 91,
   80: 100,
 };
-
-export function setup_board() {
-  return { snakes, ladders };
-}
 
 // check_snake_or_ladder: takes a position and returns the new position
 export const check_snake_or_ladder = (position, snakes, ladders) => {
@@ -36,3 +32,17 @@ export const check_snake_or_ladder = (position, snakes, ladders) => {
   }
   return position; // No snake or ladder
 };
+
+// Combine snakes and ladders into one array for rendering
+export const snakesAndLadders = [
+  ...Object.entries(snakes).map(([start, end]) => ({
+    start: Number(start),
+    end: end,
+    type: 'snake'
+  })),
+  ...Object.entries(ladders).map(([start, end]) => ({
+    start: Number(start),
+    end: end,
+    type: 'ladder'
+  }))
+]

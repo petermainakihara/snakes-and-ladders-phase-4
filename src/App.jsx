@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import Board from './components/Board'
-import Dice from './components/Dice'
-import { resolveSnakesAndLadders } from './logic/gameLogic'
+import Board from './components/board/board'
+import Dice from './components/dice'
+import { resolveSnakesAndLadders } from './components/GameLogic/gameLogic'
 import {
   initialGameState,
   getCurrentPlayer,
   updatePlayerPosition,
   nextPlayerTurn,
   checkWinCondition
-} from './logic/gameState'
+} from './components/GameLogic/GameState'
 
 const App = () => {
   const [gameState, setGameState] = useState(initialGameState)
@@ -38,6 +38,11 @@ const App = () => {
     }
   }
 
+  // ✅ RESET GAME BUTTON HANDLER
+  const handleReset = () => {
+    setGameState(initialGameState)
+  }
+
   return (
     <div className="app">
       <h1>🎲 Snakes and Ladders</h1>
@@ -50,7 +55,12 @@ const App = () => {
       ) : (
         <h2>🏆 {gameState.winner.name} Wins!</h2>
       )}
+       {/* ✅ RESET GAME BUTTON */}
+      <button onClick={handleReset} className="reset-btn">
+        🔁 Reset Game
+      </button>
     </div>
+    
   )
 }
 

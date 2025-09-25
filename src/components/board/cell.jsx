@@ -3,12 +3,13 @@ import React from 'react'
 const Cell = ({ number, isPink, playersHere }) => {
   const style = {
     backgroundColor: isPink ? '#ffc0cb' : '#ffff88',
-    color: 'black'
+    color: '#000',
+    border: '1px solid #ccc'
   }
 
   return (
     <div className="cell" style={style}>
-      <span>{number}</span>
+      <span className="cell-number">{number}</span>
       <div className="players">
         {playersHere.map(player => (
           <span

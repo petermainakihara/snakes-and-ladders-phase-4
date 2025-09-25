@@ -1,18 +1,8 @@
-body {
-  font-family: sans-serif;
-  background: #f0f0f0;
-  text-align: center;
-}
-
-.app {
-  padding: 2rem;
-}
-
 .board {
   display: grid;
   grid-template-columns: repeat(10, 40px);
   grid-auto-rows: 40px;
-  gap: 2px;
+  gap: 1px;
   margin: 2rem auto;
   width: fit-content;
 }
@@ -20,33 +10,62 @@ body {
 .cell {
   width: 40px;
   height: 40px;
+  font-size: 11px;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #333;
   padding: 2px;
-  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.cell-number {
+  font-weight: bold;
 }
 
 .players {
   display: flex;
-  gap: 2px;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  gap: 2px;
 }
 
 .player-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  border: 1px solid black;
 }
-.dice-button {
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  background: #4CAF50;
-  color: white;
+
+.board-container {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.reset-btn {
+  margin-top: 1rem;
+  padding: 8px 16px;
+  font-weight: bold;
   border: none;
-  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #000;
 }
