@@ -18,13 +18,19 @@ export const snakes = {
 
 //ladders mappings key = start(bottom) value = end(top)
 export const ladders = {
-  1: 38,
-  4: 14,
-  9: 31,
-  21: 42,
-  28: 84,
-  71: 91,
-  80: 100,
+  3: 20,
+  6: 14,
+  11: 28,
+  15: 34,
+  17: 74,
+  22: 37,
+  38: 59,
+  49: 67,
+  57: 76,
+  61: 78,
+  73: 86,
+  81: 98,
+  88: 91,
 };
 
 // check_snake_or_ladder: takes a position and returns the new position
