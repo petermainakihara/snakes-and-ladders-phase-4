@@ -21,7 +21,7 @@ body {
   width: 512px;
   height: 512px;
   margin: 20px auto;
-  background-image: url('/board.png'); /* Image goes in public folder as board.png */
+  background-image: url('/public/board.png'); /* Image goes in public folder as board.png */
   background-size: cover;
   background-position: center;
   border-radius: 8px;
