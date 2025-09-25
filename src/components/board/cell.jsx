@@ -1,22 +1,26 @@
+import React from 'react'
 
-// Renders a square cell with number and player tokens
-const Cell = ({ number, players }) => {
+const Cell = ({ number, isPink, playersHere }) => {
+  const style = {
+    backgroundColor: isPink ? '#ffc0cb' : '#ffff88',
+    color: 'black'
+  }
+
   return (
-    <div className="border w-12 h-12 flex flex-col items-center justify-center text-xs">
-      {/* Cell number */}
-      <div>{number}</div>
-
-      {/* Show player tokens (simple red dots) */}
-      <div className="flex flex-wrap">
-        {players.map(p => (
-          <div
-            key={p.id}
-            className="w-2 h-2 rounded-full bg-red-500 mx-0.5"
-          ></div>
+    <div className="cell" style={style}>
+      <span>{number}</span>
+      <div className="players">
+        {playersHere.map(player => (
+          <span
+            key={player.id}
+            className="player-dot"
+            style={{ backgroundColor: player.color }}
+            title={player.name}
+          />
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Cell;
+export default Cell

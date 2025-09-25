@@ -1,0 +1,52 @@
+body {
+  font-family: sans-serif;
+  background: #f0f0f0;
+  text-align: center;
+}
+
+.app {
+  padding: 2rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 40px);
+  grid-auto-rows: 40px;
+  gap: 2px;
+  margin: 2rem auto;
+  width: fit-content;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #333;
+  padding: 2px;
+  font-size: 12px;
+}
+
+.players {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.player-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dice-button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

@@ -1,22 +1,29 @@
-import React from 'react';
-import Cell from './Cell'; // Import individual cell component
+import React from 'react'
+import Cell from './Cell'
 
-// Board displays 100 cells with players on it
 const Board = ({ players }) => {
-  const cells = [];
+  const cells = []
 
-  // Fill cells from 100 down to 1 for top-down rendering
-  for (let i = 100; i >= 1; i--) {
-    // Find all players currently on this cell
-    const cellPlayers = players.filter(p => p.position === i);
+  const playerMap = {}
+  players.forEach(player => {
+    playerMap[player.position] = playerMap[player.position] || []
+    playerMap[player.position].push(player)
+  })
 
+  for (let i = 100; i > 0; i--) {
+    const isPink = i % 2 === 0
+    const occupyingPlayers = playerMap[i] || []
     cells.push(
-      <Cell key={i} number={i} players={cellPlayers} />
-    );
+      <Cell
+        key={i}
+        number={i}
+        isPink={isPink}
+        playersHere={occupyingPlayers}
+      />
+    )
   }
 
-  // Render 10x10 board using CSS Grid
-  return <div className="grid grid-cols-10">{cells}</div>;
-};
+  return <div className="board">{cells}</div>
+}
 
-export default Board;
+export default Board
