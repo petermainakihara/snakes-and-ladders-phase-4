@@ -1,12 +1,19 @@
 //snake mappings key = start(head) value = end(tail)
 export const snakes = {
-  16: 6,
-  48: 26,
-  49: 11,
-  62: 19,
-  87: 24,
-  93: 73,
-  98: 78,
+  18: 1,
+  56: 1,
+  8: 4,
+  39: 5,
+  51: 6,
+  26: 10,
+  60: 23,
+  92: 25,
+  75: 28,
+  54: 36,
+  83: 45,
+  90: 48,
+  99: 63,
+  97: 87,
 };
 
 //ladders mappings key = start(bottom) value = end(top)

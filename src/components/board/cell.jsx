@@ -1,27 +1,20 @@
-import React from 'react'
+import React from 'react';
 
-const Cell = ({ number, isPink, playersHere }) => {
-  const style = {
-    backgroundColor: isPink ? '#ffc0cb' : '#ffff88',
-    color: '#000',
-    border: '1px solid #ccc'
-  }
-
+const Cell = ({ number, playersHere }) => {
   return (
-    <div className="cell" style={style}>
-      <span className="cell-number">{number}</span>
-      <div className="players">
-        {playersHere.map(player => (
-          <span
+    <div className="cell">
+      <div className="cell-number">{number}</div>
+      <div className="player-tokens">
+        {playersHere.map((player) => (
+          <div
             key={player.id}
-            className="player-dot"
-            style={{ backgroundColor: player.color }}
+            className={`token token-${player.id}`}
             title={player.name}
           />
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Cell
+export default Cell;

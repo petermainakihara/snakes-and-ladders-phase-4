@@ -1,71 +1,139 @@
+/* Reset & base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* App container */
+.App {
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Board background with image */
+.board-background {
+  position: relative;
+  width: 512px;
+  height: 512px;
+  margin: 20px auto;
+  background-image: url('/board.png'); /* Image goes in public folder as board.png */
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  border: 2px solid #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Grid layer for player positions */
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 40px);
-  grid-auto-rows: 40px;
-  gap: 1px;
-  margin: 2rem auto;
-  width: fit-content;
+  grid-template-columns: repeat(10, 51.2px);
+  grid-template-rows: repeat(10, 51.2px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
-  font-size: 11px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2px;
-  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
 }
 
+/* Number on top corner of each cell */
 .cell-number {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0px;
+  color: #000;
   font-weight: bold;
 }
 
-.players {
+/* Tokens container within each cell */
+.player-tokens {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  height: 100%;
   gap: 2px;
 }
 
-.player-dot {
-  width: 10px;
-  height: 10px;
+/* Token for each player */
+.token {
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  border: 1px solid black;
+  border: 1px solid #000;
 }
 
-.board-container {
-  position: relative;
-  width: fit-content;
-  margin: auto;
+.token-1 {
+  background-color: #e74c3c; /* red */
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 400px;
-  height: 400px;
-  pointer-events: none;
-  z-index: 2;
+.token-2 {
+  background-color: #3498db; /* blue */
 }
 
-.reset-btn {
-  margin-top: 1rem;
-  padding: 8px 16px;
+.token-3 {
+  background-color: #2ecc71; /* green */
+}
+
+/* Dice container */
+.dice-container {
+  margin-top: 20px;
+}
+
+.dice-button {
+  font-size: 18px;
   font-weight: bold;
-  border: none;
-  background-color: #333;
+  padding: 10px 20px;
+  background-color: #222;
   color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dice-button:hover {
+  background-color: #000;
+}
+
+.dice-roll {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+/* Reset button */
+.reset-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .reset-btn:hover {
-  background-color: #000;
+  background-color: #c0392b;
+}
+
+/* Winner message */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
 }
