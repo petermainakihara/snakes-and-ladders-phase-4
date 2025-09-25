@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+//shows the board and the dice on the screen
 import Board from './components/board/board'
 import Dice from './components/dice'
+//handles the snakes and ladder
 import { resolveSnakesAndLadders } from './components/GameLogic/gameLogic'
+//helper function 
 import {
   initialGameState,
   getCurrentPlayer,
@@ -27,18 +30,25 @@ const App = () => {
     let updated = updatePlayerPosition(gameState, finalPosition)
 
     if (hasWon) {
-      setGameState({
-        ...updated,
-        gameOver: true,
-        winner: currentPlayer
-      })
-    } else {
-      const rotated = nextPlayerTurn(updated)
-      setGameState(rotated)
-    }
+  setGameState({
+    players: updated.players,
+    currentPlayerIndex: updated.currentPlayerIndex,
+    gameOver: true,
+    winner: currentPlayer
+  })
+} else {
+  const rotated = nextPlayerTurn(updated)
+  setGameState({
+    players: rotated.players,
+    currentPlayerIndex: rotated.currentPlayerIndex,
+    gameOver: rotated.gameOver,
+    winner: rotated.winner
+  })
+}
+
   }
 
-  // ✅ RESET GAME BUTTON HANDLER
+  //RESET GAME BUTTON HANDLER
   const handleReset = () => {
     setGameState(initialGameState)
   }
@@ -47,17 +57,21 @@ const App = () => {
     <div className="app">
       <h1>🎲 Snakes and Ladders</h1>
       <Board players={gameState.players} />
-      {!gameState.gameOver ? (
-        <>
-          <p>Turn: <strong>{currentPlayer.name}</strong></p>
-          <Dice onRoll={handleRoll} />
-        </>
-      ) : (
-        <h2>🏆 {gameState.winner.name} Wins!</h2>
-      )}
-       {/* ✅ RESET GAME BUTTON */}
+
+     {gameState.gameOver && (
+  <h2>{gameState.winner.name} Wins!</h2>
+)}
+
+    {!gameState.gameOver && (
+     <div>
+    <p>Turn: <strong>{currentPlayer.name}</strong></p>
+    <Dice onRoll={handleRoll} />
+  </div>
+)}
+
+       {/*RESET GAME BUTTON */}
       <button onClick={handleReset} className="reset-btn">
-        🔁 Reset Game
+        Reset Game
       </button>
     </div>
     

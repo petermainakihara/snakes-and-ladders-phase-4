@@ -1,4 +1,4 @@
-// Game state logic (3 players + turn rotation)
+//game state logic(3 players + turn rotation)
 
 export const initialGameState = {
   players: [
@@ -16,18 +16,44 @@ export function getCurrentPlayer(state) {
 }
 
 export function updatePlayerPosition(state, newPosition) {
-  const players = [...state.players]
-  players[state.currentPlayerIndex] = {
-    ...players[state.currentPlayerIndex],
-    position: newPosition
+  //make a copy of the players array
+  const players = state.players.map((player, index) => {
+    if (index === state.currentPlayerIndex) {
+      //copy all fields and update position
+      return {
+        id: player.id,
+        name: player.name,
+        color: player.color,
+        position: newPosition
+      }
+    }
+    return player// other player stay the same
+  })
+  //return a new state object, copying everything manually
+  return {
+    players: players,
+    currentPlayerIndex: state.currentPlayerIndex,
+    gameOver: state.gameOver,
+    winner: state.winner
   }
-  return { ...state, players }
 }
 
+
 export function nextPlayerTurn(state) {
-  const nextIndex = (state.currentPlayerIndex + 1) % state.players.length
-  return { ...state, currentPlayerIndex: nextIndex }
+  let nextIndex = state.currentPlayerIndex + 1
+  //if we've reached the last player, go back to the first
+  if (nextIndex >= state.players.length) {
+    nextIndex = 0
+  }
+  //return a new game state with updated currentPlayerIndex
+  return {
+    players: state.players,
+    currentPlayerIndex: nextIndex,
+    gameOver: state.gameOver,
+    winner: state.winner
+  }
 }
+
 
 export function checkWinCondition(position) {
   return position === 100

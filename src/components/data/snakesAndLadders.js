@@ -36,26 +36,31 @@ export const ladders = {
 // check_snake_or_ladder: takes a position and returns the new position
 export const check_snake_or_ladder = (position, snakes, ladders) => {
   if (snakes[position]) {
-    console.log(`🐍 Bitten! Go down from ${position} to ${snakes[position]}`);
+    console.log(` Bitten! Go down from ${position} to ${snakes[position]}`);
     return snakes[position];
   }
   if (ladders[position]) {
-    console.log(`🪜 Climbed! Go up from ${position} to ${ladders[position]}`);
+    console.log(`Climbed! Go up from ${position} to ${ladders[position]}`);
     return ladders[position];
   }
   return position; // No snake or ladder
 };
 
-// Combine snakes and ladders into one array for rendering
-export const snakesAndLadders = [
-  ...Object.entries(snakes).map(([start, end]) => ({
-    start: Number(start),
-    end: end,
+//combining snakes and ladders into one array for rendering
+export const snakesAndLadders = []
+//add all snakes to the array
+for (let start in snakes) {
+  snakesAndLadders.push({
+    start: parseInt(start),
+    end: snakes[start],
     type: 'snake'
-  })),
-  ...Object.entries(ladders).map(([start, end]) => ({
-    start: Number(start),
-    end: end,
+  })
+}
+//adding all ladders to the array
+for (let start in ladders) {
+  snakesAndLadders.push({
+    start: parseInt(start),
+    end: ladders[start],
     type: 'ladder'
-  }))
-]
+  })
+}
