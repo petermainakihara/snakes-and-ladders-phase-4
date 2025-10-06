@@ -1,50 +1,78 @@
-from flask import Flask, request, jsonify
-from game import Game
+from flask import Flask, jsonify
+from flask_cors import CORS
+from database import db
+from models import User, Game, Player
+from auth_routes import auth_bp
+from game_routes import game_bp
+import os
 
-app = Flask(__name__)#create the app (flask)
+def create_app():
+    app = Flask(__name__)
 
-games = {}  # simple in-memory store for games
+    # -------------------------------
+    # ✅ App Configuration
+    # -------------------------------
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    INSTANCE_DIR = os.path.join(BASE_DIR, "instance")
+    os.makedirs(INSTANCE_DIR, exist_ok=True)
 
-@app.route("/")
-def index():
-    return {"message": "Snakes & Ladders backend running!"}
+    db_path = os.path.join(INSTANCE_DIR, "snakes_ladders.db")
 
-@app.route("/game", methods=["POST"])
-def create_game():
-    g = Game(max_players=2)
-    games[g.id] = g
-    return {"game_id": g.id, "state": g.state()}
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "supersecretkey")
 
-@app.route("/game/<gid>/join", methods=["POST"])
-def join_game(gid):
-    game = games.get(gid)
-    if not game:
-        return {"error": "Game not found"}, 404
-    data = request.json or {}
-    name = data.get("name", "Player")
-    player = game.add_player(name)
-    if not player:
-        return {"error": "Game full"}, 400
-    return {"player": player, "state": game.state()}
+    # -------------------------------
+    # ✅ Enable CORS for Frontend Access
+    # -------------------------------
+    # This allows requests from your React app at http://localhost:5173
+    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-@app.route("/game/<gid>/roll", methods=["POST"])
-def roll(gid):
-    game = games.get(gid)
-    if not game:
-        return {"error": "Game not found"}, 404
-    data = request.json or {}
-    pid = data.get("player_id")
-    result, error = game.roll(pid)
-    if error:
-        return {"error": error}, 400
-    return {"result": result, "state": game.state()}
+    # -------------------------------
+    # ✅ Initialize Database
+    # -------------------------------
+    db.init_app(app)
 
-@app.route("/game/<gid>/state", methods=["GET"])
-def state(gid):
-    game = games.get(gid)
-    if not game:
-        return {"error": "Game not found"}, 404
-    return game.state()
+    # -------------------------------
+    # ✅ Register Blueprints
+    # -------------------------------
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(game_bp, url_prefix="/game")
 
+    # -------------------------------
+    # ✅ Create Tables Automatically
+    # -------------------------------
+    with app.app_context():
+        db.create_all()
+
+    # -------------------------------
+    # ✅ Root Route (API Status Check)
+    # -------------------------------
+    @app.route("/")
+    def index():
+        return jsonify({
+            "message": "🐍 Snakes & Ladders Backend is running successfully!",
+            "status": "OK",
+            "endpoints": {
+                "auth": ["/auth/signup", "/auth/login", "/auth/profile"],
+                "game": ["/game/start", "/game/move", "/game/history"]
+            }
+        }), 200
+
+    # -------------------------------
+    # ✅ Test Route for Frontend Connection
+    # -------------------------------
+    @app.route("/api/test")
+    def test_api():
+        return jsonify({"message": "Backend is connected successfully!"}), 200
+
+    return app
+
+
+# ---------------------------------
+# ✅ Run Server
+# ---------------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app = create_app()
+    # Use 0.0.0.0 to be accessible across local network (optional)
+    app.run(host="0.0.0.0", port=5000, debug=True)
