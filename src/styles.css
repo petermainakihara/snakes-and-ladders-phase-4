@@ -1,4 +1,6 @@
-/* Reset & base styles */
+/* -------------------------
+   Reset & Base Styles
+------------------------- */
 body {
   margin: 0;
   padding: 0;
@@ -7,34 +9,41 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: pink;
+  background-color: #f8f8f8;
 }
 
-/* App container */
-.App {
+/* -------------------------
+   App Container
+------------------------- */
+.game-container {
   text-align: center;
   padding: 1rem;
 }
 
-/* Board background wiith image */
+/* -------------------------
+   Board Background
+------------------------- */
 .board-background {
   position: relative;
   width: 512px;
   height: 512px;
   margin: 20px auto;
-  background-image: url('/board.png'); /* Image goes in public folder as board.png */
+  background-image: url('/board.png'); /* optional: place board.png in public folder */
   background-size: cover;
   background-position: center;
+  background-color: #fff; /* fallback if image missing */
   border-radius: 8px;
   border: 2px solid #333;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Grid layer for player positions */
+/* -------------------------
+   Grid Layer for Player Positions
+------------------------- */
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 51.2px);
-  grid-template-rows: repeat(10, 51.2px);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
   position: absolute;
   top: 0;
   left: 0;
@@ -43,23 +52,30 @@ body {
   pointer-events: none;
 }
 
+/* -------------------------
+   Individual Cell
+------------------------- */
 .cell {
   position: relative;
   width: 100%;
   height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* optional for debugging */
+  box-sizing: border-box;
 }
 
-/* Number on top corner of each cell */
+/* Cell number for debugging / reference */
 .cell-number {
   position: absolute;
   top: 2px;
   right: 4px;
-  font-size: 0px;
+  font-size: 10px;
   color: #000;
   font-weight: bold;
 }
 
-/* Tokens container within each cell */
+/* -------------------------
+   Player Tokens
+------------------------- */
 .player-tokens {
   display: flex;
   flex-wrap: wrap;
@@ -69,13 +85,12 @@ body {
   gap: 2px;
 }
 
-/* Token for each player */
 .token {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   border: 1px solid #000;
-  transition: top 0.4s ease-in-out, left 0.4s ease-in-out;
+  transition: top 0.3s ease-in-out, left 0.3s ease-in-out;
 }
 
 .token-1 {
@@ -90,51 +105,51 @@ body {
   background-color: #2ecc71; /* green */
 }
 
-/* Dice container */
-.dice-container {
-  margin-top: 20px;
+.token-4 {
+  background-color: #f1c40f; /* yellow */
 }
 
-.dice-button {
-  font-size: 18px;
+/* -------------------------
+   Controls
+------------------------- */
+.controls {
+  margin: 15px 0;
+}
+
+button {
+  font-size: 14px;
   font-weight: bold;
-  padding: 10px 20px;
-  background-color: #222;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.dice-button:hover {
-  background-color: #000;
-}
-
-.dice-roll {
-  margin-top: 10px;
-  font-size: 20px;
-}
-
-/* Reset button */
-.reset-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-weight: bold;
-  font-size: 16px;
-  background-color: #f44336;
-  color: white;
+  padding: 8px 15px;
+  margin: 5px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
-.reset-btn:hover {
-  background-color: #c0392b;
+button:hover {
+  opacity: 0.85;
 }
 
-/* Winner message */
+/* -------------------------
+   Messages / Logs
+------------------------- */
+.message {
+  margin-top: 10px;
+  font-family: monospace;
+  text-align: left;
+  max-width: 512px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* -------------------------
+   Headings
+------------------------- */
 h2 {
   color: #2c3e50;
   margin-bottom: 1rem;
