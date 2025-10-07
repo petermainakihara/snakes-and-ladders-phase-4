@@ -7,9 +7,13 @@ from models import User
 
 auth_bp = Blueprint("auth", __name__)
 
+<<<<<<< HEAD
 # ----------------------------------
 # ✅ SIGNUP (Email-based)
 # ----------------------------------
+=======
+#SIGNUP ROUTE
+>>>>>>> origin/main
 @auth_bp.route("/signup", methods=["POST"])
 def signup():
     try:
@@ -42,9 +46,14 @@ def signup():
         return jsonify({"error": "Internal server error"}), 500
 
 
+<<<<<<< HEAD
 # ----------------------------------
 # ✅ LOGIN
 # ----------------------------------
+=======
+# LOGIN ROUTE
+
+>>>>>>> origin/main
 @auth_bp.route("/login", methods=["POST"])
 def login():
     try:
@@ -71,9 +80,13 @@ def login():
         return jsonify({"error": "Internal server error"}), 500
 
 
+<<<<<<< HEAD
 # ----------------------------------
 # ✅ PROFILE TEST
 # ----------------------------------
+=======
+#PROFILE ROUTE (Test)
+>>>>>>> origin/main
 @auth_bp.route("/profile", methods=["GET"])
 def profile():
     return jsonify({

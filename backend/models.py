@@ -2,9 +2,14 @@
 from database import db
 from datetime import datetime
 
+<<<<<<< HEAD
 # ===================================
 # ✅ USER MODEL
 # ===================================
+=======
+# ✅ User Model
+
+>>>>>>> origin/main
 class User(db.Model):
     __tablename__ = "users"
 
@@ -28,9 +33,15 @@ class User(db.Model):
         }
 
 
+<<<<<<< HEAD
 # ===================================
 # ✅ GAME MODEL
 # ===================================
+=======
+
+#  Game Model
+
+>>>>>>> origin/main
 class Game(db.Model):
     __tablename__ = "games"
 
@@ -62,9 +73,15 @@ class Game(db.Model):
         }
 
 
+<<<<<<< HEAD
 # ===================================
 # ✅ PLAYER MODEL
 # ===================================
+=======
+
+#  Player Model
+ 
+>>>>>>> origin/main
 class Player(db.Model):
     __tablename__ = "players"
 
