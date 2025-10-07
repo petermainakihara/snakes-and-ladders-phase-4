@@ -1,9 +1,8 @@
 from database import db
 from datetime import datetime
 
-# -------------------------------
 # ✅ User Model
-# -------------------------------
+
 class User(db.Model):
     __tablename__ = "users"
 
@@ -26,9 +25,9 @@ class User(db.Model):
         }
 
 
-# -------------------------------
-# ✅ Game Model
-# -------------------------------
+
+#  Game Model
+
 class Game(db.Model):
     __tablename__ = "games"
 
@@ -57,9 +56,9 @@ class Game(db.Model):
         }
 
 
-# -------------------------------
-# ✅ Player Model
-# -------------------------------
+
+#  Player Model
+ 
 class Player(db.Model):
     __tablename__ = "players"
 
