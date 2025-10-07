@@ -82,7 +82,7 @@ def login():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-PROFILE ROUTE (Test)
+#PROFILE ROUTE (Test)
 @auth_bp.route("/profile", methods=["GET"])
 def profile():
     try:

@@ -9,9 +9,9 @@ import os
 def create_app():
     app = Flask(__name__)
 
-    # -------------------------------
-    # ✅ App Configuration
-    # -------------------------------
+    
+    #  App Configuration
+    
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     INSTANCE_DIR = os.path.join(BASE_DIR, "instance")
     os.makedirs(INSTANCE_DIR, exist_ok=True)
@@ -22,32 +22,32 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "supersecretkey")
 
-    # -------------------------------
-    # ✅ Enable CORS for Frontend Access
-    # -------------------------------
+    
+    #  Enable CORS for Frontend Access
+    
     # This allows requests from your React app at http://localhost:5173
     CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-    # -------------------------------
-    # ✅ Initialize Database
-    # -------------------------------
+    
+    #  Initialize Database
+    
     db.init_app(app)
 
-    # -------------------------------
-    # ✅ Register Blueprints
-    # -------------------------------
+   
+    #  Register Blueprints
+    
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(game_bp, url_prefix="/game")
 
-    # -------------------------------
-    # ✅ Create Tables Automatically
-    # -------------------------------
+   
+    #  Create Tables Automatically
+    
     with app.app_context():
         db.create_all()
 
-    # -------------------------------
-    # ✅ Root Route (API Status Check)
-    # -------------------------------
+    # 
+    #  Root Route (API Status Check)
+    
     @app.route("/")
     def index():
         return jsonify({
@@ -59,9 +59,8 @@ def create_app():
             }
         }), 200
 
-    # -------------------------------
-    # ✅ Test Route for Frontend Connection
-    # -------------------------------
+     # Test Route for Frontend Connection
+    
     @app.route("/api/test")
     def test_api():
         return jsonify({"message": "Backend is connected successfully!"}), 200
@@ -69,9 +68,9 @@ def create_app():
     return app
 
 
-# ---------------------------------
-# ✅ Run Server
-# ---------------------------------
+
+#  Run Server
+
 if __name__ == "__main__":
     app = create_app()
     # Use 0.0.0.0 to be accessible across local network (optional)
