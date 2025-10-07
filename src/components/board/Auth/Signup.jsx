@@ -1,37 +1,45 @@
 // src/components/board/Auth/Signup.jsx
+
 import React, { useState } from "react";
 import { saveToken, saveUser } from "../../../utils/auth"; // Fixed path
 
 const Signup = () => {
-  // ✅ States for email and passwords
+  // -------------------------------
+  // ✅ State variables
+  // -------------------------------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // ✅ States for messages
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // ✅ Handle signup form submit
+  // -------------------------------
+  // ✅ Handle form submission
+  // -------------------------------
   const handleSignup = async (e) => {
     e.preventDefault();
     setMessage("");
     setError("");
 
-    // 🛑 Check password match
+    // -------------------------------
+    // 🛑 Validate password match
+    // -------------------------------
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
 
     try {
+      // -------------------------------
       // ✅ Send POST request to Flask backend
+      // -------------------------------
       const response = await fetch("http://localhost:5000/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }), // only email & password
+        body: JSON.stringify({ email, password }),
       });
 
+      // Parse JSON response
       const data = await response.json();
 
       if (response.ok) {
@@ -44,12 +52,15 @@ const Signup = () => {
         if (data.token) saveToken(data.token);
         if (data.user) saveUser(data.user);
       } else {
-        // Show backend error message if available
+        // Show backend-provided error message or default
         setError(data.error || data.message || "Signup failed. Try again.");
       }
     } catch (err) {
       console.error("Signup error:", err);
-      setError("Something went wrong. Please try again later.");
+      // Show network or fetch errors
+      setError(
+        "Something went wrong. Check if backend is running and CORS is enabled."
+      );
     }
   };
 
@@ -58,7 +69,7 @@ const Signup = () => {
       <h2>Signup</h2>
 
       <form onSubmit={handleSignup}>
-        {/* ✅ Email input */}
+        {/* Email */}
         <div className="form-group">
           <label>Email:</label>
           <input
@@ -70,7 +81,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* ✅ Password input */}
+        {/* Password */}
         <div className="form-group">
           <label>Password:</label>
           <input
@@ -82,7 +93,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* ✅ Confirm Password */}
+        {/* Confirm Password */}
         <div className="form-group">
           <label>Confirm Password:</label>
           <input
@@ -94,7 +105,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* ✅ Display messages */}
+        {/* Display messages */}
         {message && <p className="success">{message}</p>}
         {error && <p className="error">{error}</p>}
 

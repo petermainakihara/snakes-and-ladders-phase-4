@@ -1,14 +1,22 @@
+// src/components/board/Auth/Login.jsx
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveToken, getToken, removeToken } from "../../../utils/auth";
+import { saveToken, saveUser } from "../../../utils/auth";
 
 const Login = () => {
+  // -------------------------------
+  // ✅ State variables
+  // -------------------------------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // to redirect after login
+  const navigate = useNavigate();
 
+  // -------------------------------
+  // ✅ Handle form submission
+  // -------------------------------
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -24,19 +32,27 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // -------------------------------
         // ✅ Save token and user info
-        saveToken(data.token || "dummy-token"); // Replace with real token if backend provides
-        saveUser(data.user);
+        // -------------------------------
+        if (data.token) saveToken(data.token);
+        if (data.user) saveUser(data.user);
 
         setMessage("✅ Login successful! Redirecting...");
-        // Redirect to /game after 1 second
+
+        // Redirect to /game after a short delay
         setTimeout(() => navigate("/game"), 1000);
       } else {
-        setError(data.error || "Invalid login credentials.");
+        // -------------------------------
+        // Show backend-provided error message or default
+        // -------------------------------
+        setError(data.error || data.message || "Invalid login credentials.");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Something went wrong. Try again later.");
+      setError(
+        "Something went wrong. Check if backend is running and CORS is enabled."
+      );
     }
   };
 
@@ -44,28 +60,31 @@ const Login = () => {
     <div className="auth-container">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <div>
+        {/* Email */}
+        <div className="form-group">
           <label>Email:</label>
           <input
             type="email"
-            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
             required
           />
         </div>
 
-        <div>
+        {/* Password */}
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
-            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
             required
           />
         </div>
 
+        {/* Display messages */}
         {message && <p className="success">{message}</p>}
         {error && <p className="error">{error}</p>}
 
